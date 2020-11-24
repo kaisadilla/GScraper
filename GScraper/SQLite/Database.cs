@@ -5,16 +5,16 @@ namespace Kaisa.GScraper.SQLite {
     public static class Database {
         private static SQLiteConnection dbConn;
 
-        public static void Initialize () {
+        public static void Initialize() {
             dbConn = new SQLiteConnection("Data Source=series.sqlite;Version=3");
         }
 
-        public static void CreateDatabase () {
+        public static void CreateDatabase() {
             SQLiteConnection.CreateFile("series.sqlite");
             CreateTables();
         }
 
-        private static void CreateTables () {
+        private static void CreateTables() {
             dbConn.Open();
             var comm_movies = new SQLiteCommand(TableDefinitions.SQL_MOVIES);
             var comm_series = new SQLiteCommand(TableDefinitions.SQL_SERIES);
@@ -29,22 +29,22 @@ namespace Kaisa.GScraper.SQLite {
             dbConn.Close();
         }
 
-        public static void InsertSeries (string internalName, string displayName, string imgPath) {
+        public static void InsertSeries(string internalName, string displayName, string imgPath) {
             string sql = $"insert into series values ('{internalName}', '{displayName}', '{imgPath}', '0', '-1');";
             QueryInsert(sql);
         }
 
-        public static void InsertEpisode (string fullId, string series, int seasonIndex, int episodeIndex, string name, string date, string imgPath) {
+        public static void InsertEpisode(string fullId, string series, int seasonIndex, int episodeIndex, string name, string date, string imgPath) {
             string sql = $"insert into episodes values ('{fullId}', '{series}', '{seasonIndex}', '{episodeIndex}', '{name}', '{date}', '{imgPath}', '-1');";
             QueryInsert(sql);
         }
 
-        public static void InsertLink (string url, string episode, int linkType, string hostName, string quality, string language) {
+        public static void InsertLink(string url, string episode, int linkType, string hostName, string quality, string language) {
             string sql = $"insert into links values ('{url}', '{episode}', '{linkType}', '{hostName}', '{quality}', '{language}', '0');";
             QueryInsert(sql);
         }
 
-        private static void QueryInsert (string query) {
+        private static void QueryInsert(string query) {
             dbConn.Open();
 
             var comm = new SQLiteCommand(query, dbConn);

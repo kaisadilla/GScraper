@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kaisa.GScraper.SQLite {
+﻿namespace Kaisa.GScraper.SQLite {
     public static class TableDefinitions {
         public const string SQL_MOVIES =
                    @"create table if not exists movies (

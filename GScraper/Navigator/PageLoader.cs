@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Threading.Tasks;
 
 namespace Kaisa.GScraper.Navigator {
     public class PageLoader {
@@ -18,7 +19,7 @@ namespace Kaisa.GScraper.Navigator {
         /// it runs, so it's adviced not to show it.</param>
         public PageLoader(bool headless = true, bool hideCmd = true) {
             if (headless) options.AddArgument("headless");
-            if (hideCmd)  driverService.HideCommandPromptWindow = true;
+            if (hideCmd) driverService.HideCommandPromptWindow = true;
         }
 
         /// <summary>
@@ -27,14 +28,13 @@ namespace Kaisa.GScraper.Navigator {
         /// <param name="url">The url of the page to load</param>
         /// <param name="conds">A condition to be met, usually created with SeleniumExtras.WaitHelpers.ExpectedConditions class</param>
         /// <param name="maxTries">The maximum number of tries if loading the page keeps failing.</param>
-        public HtmlNode LoadDynamicWebpage(string url, Func<IWebDriver, IWebElement> conds, int maxTries = 10) {
+        public async Task<HtmlNode> LoadDynamicWebpage(string url, Func<IWebDriver, IWebElement> conds, int maxTries = 10) {
             try {
                 Console.WriteLine($"Loading webpage {url}");
                 int timeout = 15 + (5 * (10 - maxTries));
 
                 using (IWebDriver driver = new ChromeDriver(driverService, options, TimeSpan.FromSeconds(timeout))) {
                     WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
                     driver.Navigate().GoToUrl(url);
                     wait.Until(conds);
 
@@ -45,7 +45,7 @@ namespace Kaisa.GScraper.Navigator {
             catch (Exception ex) when (ex is WebDriverException || ex is InvalidOperationException) {
                 if (maxTries > 0) {
                     Console.WriteLine($"Error loading page {url}: {ex.Message}. {maxTries - 1} tries left.");
-                    return LoadDynamicWebpage(url, conds, maxTries--);
+                    return await LoadDynamicWebpage(url, conds, maxTries--);
                 }
                 else {
                     Console.WriteLine($"Error loading page. Page not loaded.");
