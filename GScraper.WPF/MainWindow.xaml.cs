@@ -1,4 +1,5 @@
-﻿using Kaisa.GScraper.Scraper.UserControls;
+﻿using Kaisa.GScraper.Scraper.Pages;
+using Kaisa.GScraper.Scraper.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,48 +24,9 @@ namespace Kaisa.GScraper.WPF {
             BindingObjects.Initialize();
             BindingObjects.InitializeScraper();
             InitializeComponent();
+            frame_main.Navigate(new SeriesSearch());
         }
 
-        private void button_search_Click(object sender, RoutedEventArgs e) {
-            ParseQuery(SearchQuery);
-        }
-
-        private void textBox_searchQuery_KeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter || e.Key == Key.Return) {
-                button_search_Click(sender, e);
-            }
-        }
-
-        private string SearchQuery {
-            get => textBox_searchQuery.Text;
-            set => textBox_searchQuery.Text = value;
-        }
-
-        private void ParseQuery (string query) {
-            if (query.Contains("https://") || query.Contains("http://")) {
-                // go to page directly
-            }
-            else if (!string.IsNullOrEmpty(query)) {
-                SearchAndDisplay(query);
-            }
-        }
-
-        private void SearchAndDisplay (string query) {
-            list_searchResults.Items.Clear();
-            loading_searchingQuery.Visibility = Visibility.Visible;
-            var results = BindingObjects.Scraper.ScrapeSearchResult(query);
-
-            foreach (var r in results) {
-                var resultEntry = new WebSearchResult {
-                    SeriesName = r.name,
-                    ImgUrl = r.imageUrl,
-                    Year = r.year
-                };
-                resultEntry.SetStandardSize();
-
-                list_searchResults.Items.Add(resultEntry);
-            }
-            loading_searchingQuery.Visibility = Visibility.Hidden;
-        }
+        public Frame DisplayFrame => frame_main;
     }
 }

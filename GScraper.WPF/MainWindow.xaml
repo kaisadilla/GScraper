@@ -6,17 +6,7 @@
         xmlns:uc="clr-namespace:Kaisa.GScraper.Scraper.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
-    <Grid Background="#FF1E1E1E">
-        <Label Content="Search Gnula for a series or input a link directly:" HorizontalAlignment="Left" Margin="123,50,0,0" VerticalAlignment="Top" Foreground="#FFE1E1E1"/>
-        <TextBox x:Name="textBox_searchQuery" HorizontalAlignment="Left" Margin="123,76,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="617" Height="48" Background="#FFE1E1E1" FontSize="22pt" Padding="5,2,0,0" BorderThickness="0,0,0,0" SelectionBrush="#FFDC7823" SelectionTextBrush="Black" KeyDown="textBox_searchQuery_KeyDown"/>
-        <Button x:Name="button_search" Content="Search" BorderThickness="0" HorizontalAlignment="Left" Margin="745,76,0,0" VerticalAlignment="Top" Height="48" Width="139" FontSize="18pt" Background="#FFDC7823" Click="button_search_Click">
-
-        </Button>
-        <uc:LoadingSpinner x:Name="loading_searchingQuery" HorizontalAlignment="Left" VerticalAlignment="Top" Width="761" Height="542" Margin="123,140,0,0" Visibility="Hidden" />
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="123,140,140,70" Height="542">
-            <ItemsControl x:Name="list_searchResults">
-                <!--<uc:WebSearchResult ImgUrl="https://image.tmdb.org/t/p/w92/rst5xc4f7v1KiDiQjzDiZqLtBpl.jpg" SeriesName="Stargate" Year="1997" Width="600" Height="95" />-->
-            </ItemsControl>
-        </ScrollViewer>
-    </Grid>
+    <DockPanel>
+        <Frame x:Name="frame_main" NavigationUIVisibility="Hidden"/>
+    </DockPanel>
 </Window>

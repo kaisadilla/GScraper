@@ -8,6 +8,14 @@
       Title="SeriesImportOptions">
 
     <Grid Background="#FF1E1E1E">
-        
+        <Label Foreground="#FFC3C3C3" FontSize="32pt" Margin="50,50,0,661" HorizontalAlignment="Left">Name TwoW (2005)</Label>
+        <Image Source="C:\Users\DAW2\poster.jpg" Height="272" Width="185" Margin="72,130,767,0" Stretch="UniformToFill" VerticalAlignment="Top"/>
+        <WrapPanel x:Name="list_seasons" Margin="294,130,10,10">
+            <!--<Rectangle Height="42" Width="46" Fill="#FFAA2A2A" />
+            <Rectangle Height="72" Width="46" Fill="#FFAA2A2A" />
+            <Rectangle Height="25" Width="46" Fill="#FFAA2A2A" />
+            <Rectangle Height="103" Width="46" Fill="#FFAA2A2A" />
+            <Rectangle Height="77" Width="46" Fill="#FFAA2A2A" />-->
+        </WrapPanel>
     </Grid>
 </Page>
