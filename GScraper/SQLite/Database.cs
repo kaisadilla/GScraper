@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
 
 namespace Kaisa.GScraper.SQLite {
     public static class Database {
@@ -54,12 +52,7 @@ namespace Kaisa.GScraper.SQLite {
                 comm.ExecuteNonQuery();
             }
             catch (SQLiteException ex) {
-                if (ex.Message == "constraint failed") {
-                    Console.WriteLine($"Values not inserted in the database because they already exist!");
-                }
-                else {
-                    Console.WriteLine($"Values not inserted in the database. Cause: {ex.Message}");
-                }
+                Console.WriteLine($"Values not inserted in the database. Cause: {ex.Message}");
             }
 
             dbConn.Close();

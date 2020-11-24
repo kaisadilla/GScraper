@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GScraper.WPF", "GScraper.WPF\GScraper.WPF.csproj", "{AB19E85F-8076-4A81-8341-D11BB4D2F5F7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3A2C73DE-8C92-4AB0-9CC7-B18DC64021B3} = {3A2C73DE-8C92-4AB0-9CC7-B18DC64021B3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GScraper", "GScraper\GScraper.csproj", "{3A2C73DE-8C92-4AB0-9CC7-B18DC64021B3}"
 EndProject

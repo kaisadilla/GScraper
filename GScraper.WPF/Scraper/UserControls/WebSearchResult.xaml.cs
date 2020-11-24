@@ -21,8 +21,13 @@ namespace Kaisa.GScraper.Scraper.UserControls {
             DataContext = this;
         }
 
-        public string ImgUrl { get; set; }
+        public void SetStandardSize () {
+            Height = 95;
+            Width = 600;
+        }
+
         public string SeriesName { get; set; }
+        public string ImgUrl { get; set; }
         public string Year { get; set; }
     }
 }

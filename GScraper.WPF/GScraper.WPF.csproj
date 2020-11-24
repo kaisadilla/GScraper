@@ -10,4 +10,8 @@
     <Product>Kaisa.GScraper.WPF</Product>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GScraper\GScraper.csproj" />
+  </ItemGroup>
+
 </Project>
