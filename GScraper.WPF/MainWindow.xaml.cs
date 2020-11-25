@@ -24,9 +24,14 @@ namespace Kaisa.GScraper.WPF {
             BindingObjects.Initialize();
             BindingObjects.InitializeScraper();
             InitializeComponent();
-            frame_main.Navigate(new SeriesSearch());
+            page_search = new SeriesSearch();
+            frame_main.Navigate(page_search);
         }
 
         public Frame DisplayFrame => frame_main;
+
+        public SeriesSearch page_search;
+        public SeriesImportOptions page_options;
+        public int page_download;
     }
 }

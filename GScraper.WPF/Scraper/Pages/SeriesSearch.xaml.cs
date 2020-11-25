@@ -1,4 +1,5 @@
-﻿using Kaisa.GScraper.Scraper.UserControls;
+﻿using Kaisa.GScraper.Exceptions;
+using Kaisa.GScraper.Scraper.UserControls;
 using Kaisa.GScraper.WPF;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
                     ImgUrl = r.imageUrl,
                     Year = r.year
                 };
-                resultEntry.SetStandardSize();
+                resultEntry.PreviewMouseDown += (sender, e) => NavigateToPage(r.pageUrl);
 
                 list_searchResults.Items.Add(resultEntry);
             }
@@ -65,11 +66,20 @@ namespace Kaisa.GScraper.Scraper.Pages {
         }
 
         private void NavigateToPage(string url) {
-            var window = (MainWindow)Window.GetWindow(this);
-            var page_seriesImport = new SeriesImportOptions();
-            page_seriesImport.CreateSeasonPanels(new int[] { 22, 22, 22, 20, 17, 12, 15, 26, 8, 7 });
-            //page_seriesImport.CreateSeasonPanels(new int[] { 12, 22, 42 });
-            window.DisplayFrame.Navigate(page_seriesImport);
+            try {
+                var seriesStructure = BindingObjects.Scraper.ScrapeSeriesStructure(url);
+                var window = (MainWindow)Window.GetWindow(this);
+                window.page_options = new SeriesImportOptions {
+                    ImgUrl = seriesStructure.imgUrl,
+                    SeriesName = seriesStructure.name,
+                    InternalName = seriesStructure.internalName
+                };
+                window.page_options.CreateSeasonPanels(seriesStructure.episodes);
+                window.DisplayFrame.Navigate(window.page_options);
+            }
+            catch (PageNotFoundException ex) {
+
+            }
         }
     }
 }

@@ -18,7 +18,9 @@ namespace Kaisa.GScraper.Scraper.UserControls {
     /// Interaction logic for EpisodeSelector.xaml
     /// </summary>
     public partial class EpisodeSelector : UserControl {
+        private const int ROW_HEIGHT = 35;
         private const int EPISODES_PER_ROW = 5;
+        private static Color TOGGLE_COLOR_ACTIVE = (Color)ColorConverter.ConvertFromString("#FFDC7823");
 
         public EpisodeSelector() {
             InitializeComponent();
@@ -34,18 +36,10 @@ namespace Kaisa.GScraper.Scraper.UserControls {
 
         private List<ToggleButton> episodeToggles;
 
-        //private bool AllEpisodesToggled => episodeToggles.TrueForAll(e => e.IsChecked == true);
-        private bool AllEpisodesToggled {
-            get {
-                foreach (var e in episodeToggles) {
-                    System.Diagnostics.Debug.WriteLine($"Episode {e} is toggled? {e.IsChecked}");
-                    if (e.IsChecked == false) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
+        /// <summary>
+        /// Returns true if all the episodes of the control are toggled on.
+        /// </summary>
+        private bool AreAllEpisodesToggled => episodeToggles.TrueForAll(e => e.IsChecked == true);
 
         /// <summary>
         /// Adds a toggle for each episode, with its text being the number of that episode,
@@ -55,25 +49,42 @@ namespace Kaisa.GScraper.Scraper.UserControls {
         /// <param name="episodes">An array of ints containing all the episodes.</param>
         public void AddEpisodes (string legend, int episodeCount) {
             list_episodes.Children.Clear();
+            toggle_season.IsChecked = true;
             episodeToggles = new List<ToggleButton>();
             Legend = legend;
             int rows = (int)Math.Ceiling(episodeCount / (double)EPISODES_PER_ROW);
-            Height = 40 + (40 * rows);
+            Height = ROW_HEIGHT + (ROW_HEIGHT * rows);
 
             for (int i = 0; i < episodeCount; i++) {
                 var eToggle = new ToggleButton {
-                    Width = 39,
-                    Height = 39,
+                    Width = ROW_HEIGHT - 1,
+                    Height = ROW_HEIGHT - 1,
                     BorderThickness = new Thickness(0),
                     Margin = new Thickness(1, 1, 0, 0),
-                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFDC7823")),
+                    //Background = new SolidColorBrush(TOGGLE_COLOR_ACTIVE),
                     FontSize = 14d * (96d / 72d),
                     Content = $"{i + 1}",
+                    IsChecked = true
                 };
-                eToggle.Click += (sender, e) => { toggle_season.IsChecked = false; System.Diagnostics.Debug.WriteLine(toggle_season.IsChecked); };
+                eToggle.Style = FindResource("GScraper.Series.ToggleButton") as Style;
+                //eToggle.Click += (sender, e) => toggle_season.IsChecked = false; // why can't I untoggle the master toggle? Curious.
                 list_episodes.Children.Add(eToggle);
                 episodeToggles.Add(eToggle);
             }
+        }
+
+        /// <summary>
+        /// Returns an array of booleans, each representing if the episode at that index was chosen for download.
+        /// </summary>
+        /// <returns></returns>
+        public bool[] GetChosenEpisodes () {
+            bool[] chosenEpisodes = new bool[episodeToggles.Count];
+
+            for (int i = 0; i < episodeToggles.Count; i++) {
+                chosenEpisodes[i] = episodeToggles[i].IsChecked == true;
+            }
+
+            return chosenEpisodes;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Kaisa.GScraper.Scraper.Packets;
 using Kaisa.GScraper.Scraper.UserControls;
+using Kaisa.GScraper.WPF;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,28 @@ namespace Kaisa.GScraper.Scraper.Pages {
     public partial class SeriesImportOptions : Page {
         public SeriesImportOptions() {
             InitializeComponent();
+            DataContext = this;
         }
+
+        public string ImgUrl { get; set; }
+        public string InternalName { get; set; }
+        public string SeriesName { get; set; }
+
+        private void arrow_goBack_Click(object sender, RoutedEventArgs e) {
+            var window = (MainWindow)Window.GetWindow(this);
+            window.DisplayFrame.Navigate(window.page_search);
+        }
+
+        private void button_import_Click(object sender, RoutedEventArgs e) {
+            foreach (var season in GetChosenEpisodes()) {
+                foreach (var episode in season) {
+                    System.Diagnostics.Debug.Write(episode);
+                }
+                System.Diagnostics.Debug.Write("\n");
+            }
+        }
+
+        private List<EpisodeSelector> seasons;
 
         /// <summary>
         /// Builds the episodes' panels for each season. The name of each season will be "Season {index + 1}".
@@ -28,15 +50,26 @@ namespace Kaisa.GScraper.Scraper.Pages {
         /// </summary>
         /// <param name="episodesPerSeason">An array of integers, representing the amount of episodes in each seasons.</param>
         public void CreateSeasonPanels (int[] episodesPerSeason) {
+            seasons = new List<EpisodeSelector>();
             for (int i = 0; i < episodesPerSeason.Length; i++) {
                 var eSelector = new EpisodeSelector {
-                    Width = 200,
                     VerticalAlignment = VerticalAlignment.Top,
                     Margin = new Thickness(0, 0, 10, 10),
                 };
                 eSelector.AddEpisodes($"Season {i + 1}", episodesPerSeason[i]);
                 list_seasons.Children.Add(eSelector);
+                seasons.Add(eSelector);
             }
+        }
+
+        private bool[][] GetChosenEpisodes () {
+            bool[][] chosenEpisodes = new bool[seasons.Count][];
+
+            for (int i = 0; i < seasons.Count; i++) {
+                chosenEpisodes[i] = seasons[i].GetChosenEpisodes();
+            }
+
+            return chosenEpisodes;
         }
     }
 }

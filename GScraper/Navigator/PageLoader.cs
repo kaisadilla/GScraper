@@ -28,24 +28,25 @@ namespace Kaisa.GScraper.Navigator {
         /// <param name="url">The url of the page to load</param>
         /// <param name="conds">A condition to be met, usually created with SeleniumExtras.WaitHelpers.ExpectedConditions class</param>
         /// <param name="maxTries">The maximum number of tries if loading the page keeps failing.</param>
-        public async Task<HtmlNode> LoadDynamicWebpage(string url, Func<IWebDriver, IWebElement> conds, int maxTries = 10) {
+        public HtmlNode LoadDynamicWebpage(string url, Func<IWebDriver, IWebElement> conds, int maxTries = 10) {
+            int timeout = 15 + (5 * (10 - maxTries));
+            IWebDriver driver = new ChromeDriver(driverService, options, TimeSpan.FromSeconds(timeout));
+
             try {
                 Console.WriteLine($"Loading webpage {url}");
-                int timeout = 15 + (5 * (10 - maxTries));
-
-                using (IWebDriver driver = new ChromeDriver(driverService, options, TimeSpan.FromSeconds(timeout))) {
+                using (driver) {
                     WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
                     driver.Navigate().GoToUrl(url);
                     wait.Until(conds);
-
                     Console.WriteLine("Page loaded successfully.");
                     return HtmlNode.CreateNode(driver.PageSource);
                 }
             }
             catch (Exception ex) when (ex is WebDriverException || ex is InvalidOperationException) {
+                driver?.Close(); // TODO: Check if this prevents chromexplorer.exe processes from piling up when they crash.
                 if (maxTries > 0) {
                     Console.WriteLine($"Error loading page {url}: {ex.Message}. {maxTries - 1} tries left.");
-                    return await LoadDynamicWebpage(url, conds, maxTries--);
+                    return LoadDynamicWebpage(url, conds, maxTries--);
                 }
                 else {
                     Console.WriteLine($"Error loading page. Page not loaded.");
