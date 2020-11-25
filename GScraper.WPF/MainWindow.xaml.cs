@@ -32,6 +32,6 @@ namespace Kaisa.GScraper.WPF {
 
         public SeriesSearch page_search;
         public SeriesImportOptions page_options;
-        public int page_download;
+        public SeriesImportProgress page_download;
     }
 }

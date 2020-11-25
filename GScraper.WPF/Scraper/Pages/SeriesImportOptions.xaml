@@ -9,7 +9,7 @@
 
     <Grid Background="#FF1E1E1E">
         <Label Content="{Binding SeriesName}" Foreground="#FFC3C3C3" FontSize="32pt" Margin="247,30,0,702" HorizontalAlignment="Left" Width="861" />
-        <Button x:Name="arrow_goBack" Content="◄" Background="#FFDC7823" FontSize="32pt" Margin="1113,30,0,702" HorizontalAlignment="Left" Width="77" FontFamily="Segoe UI Symbol" Click="arrow_goBack_Click" BorderThickness="0,0,0,0" />
+        <Button x:Name="arrow_goBack" Style="{DynamicResource GScraper.Series.Button}" Content="◄" Background="#FFDC7823" FontSize="32pt" Margin="1113,30,0,702" HorizontalAlignment="Left" Width="77" FontFamily="Segoe UI Symbol" Click="arrow_goBack_Click" BorderThickness="0,0,0,0" />
         <Label Content="Episodes" Foreground="#FFC3C3C3" FontSize="16pt" Margin="247,98,0,656" HorizontalAlignment="Left" Width="943" />
         <Image Source="{Binding ImgUrl}" Height="278" Width="185" Stretch="UniformToFill" Margin="30,30,986,492"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="247,144,10,68">
@@ -21,6 +21,6 @@
             <Rectangle Height="77" Width="46" Fill="#FFAA2A2A" />-->
             </WrapPanel>
         </ScrollViewer>
-        <Button x:Name="button_import" Content="Import" BorderThickness="0" HorizontalAlignment="Left" Margin="1051,742,0,0" VerticalAlignment="Top" Height="48" Width="139" FontSize="18pt" Background="#FFDC7823" Click="button_import_Click" />
+        <Button x:Name="button_import" Style="{DynamicResource GScraper.Series.Button}" Content="Import" BorderThickness="0" HorizontalAlignment="Left" Margin="1051,742,0,0" VerticalAlignment="Top" Height="48" Width="139" FontSize="18pt" Background="#FFDC7823" Click="button_import_Click" />
     </Grid>
 </Page>

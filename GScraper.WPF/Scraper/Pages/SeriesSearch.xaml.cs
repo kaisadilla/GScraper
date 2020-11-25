@@ -1,4 +1,7 @@
-﻿using Kaisa.GScraper.Exceptions;
+﻿#define NO_CONNECTION
+
+using Kaisa.GScraper.Exceptions;
+using Kaisa.GScraper.Packets;
 using Kaisa.GScraper.Scraper.UserControls;
 using Kaisa.GScraper.WPF;
 using System;
@@ -40,7 +43,11 @@ namespace Kaisa.GScraper.Scraper.Pages {
 
         private void ParseQuery(string query) {
             if (query.Contains("https://") || query.Contains("http://")) {
+#if NO_CONNECTION
+                NavigateSimulated();
+#else
                 NavigateToPage("test.url");
+#endif
             }
             else if (!string.IsNullOrEmpty(query)) {
                 SearchAndDisplay(query);
@@ -65,7 +72,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
             loading_searchingQuery.Visibility = Visibility.Hidden;
         }
 
-        private void NavigateToPage(string url) {
+        private void NavigateToPage (string url) {
             try {
                 var seriesStructure = BindingObjects.Scraper.ScrapeSeriesStructure(url);
                 var window = (MainWindow)Window.GetWindow(this);
@@ -80,6 +87,17 @@ namespace Kaisa.GScraper.Scraper.Pages {
             catch (PageNotFoundException ex) {
 
             }
+        }
+
+        private void NavigateSimulated () {
+            var window = (MainWindow)Window.GetWindow(this);
+            window.page_options = new SeriesImportOptions {
+                ImgUrl = @"C:\Users\DAW2\poster.jpg",
+                SeriesName = "Test (2007)",
+                InternalName = "id"
+            };
+            window.page_options.CreateSeasonPanels(new int[] { 22, 20, 18, 19, 20, 20, 23 });
+            window.DisplayFrame.Navigate(window.page_options);
         }
     }
 }
