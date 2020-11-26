@@ -38,6 +38,7 @@
                         quality text,
                         language text,
                         favorite int,
+                        badlink int,
                         foreign key(episode) references episodes(fullId) on delete cascade
                     );";
     }

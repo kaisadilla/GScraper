@@ -9,10 +9,14 @@
       Title="SeriesImportProgress">
 
     <Grid Background="#FF1E1E1E">
-        <Grid x:Name="progressBar" Margin="116,79,145,637">
-            <!--<Button>Button 1</Button>-->
-            <!--<Rectangle Grid.Column="0" Fill="Red" Stroke="Black" />-->
-
-        </Grid>
+        <Label Content="{Binding SeriesName}" Foreground="#FFC3C3C3" FontSize="32pt" Margin="247,30,0,702" HorizontalAlignment="Left" Width="861" />
+        <Image Source="{Binding ImgUrl}" Height="278" Width="185" Stretch="UniformToFill" Margin="30,30,986,492"/>
+        <Label x:Name="label_season" Content="Scraping season 1 / 10" Foreground="#FFA5A5A5" FontSize="12pt" Margin="247,0,0,656" HorizontalAlignment="Left" Width="919" VerticalAlignment="Bottom" />
+        <Grid x:Name="seasonBar" Margin="247,146,34,594" Background="#0CFFFFFF" />
+        <Label x:Name="label_episode" Content="Scraping episode 12 / 22" Foreground="#FFA5A5A5" FontSize="12pt" Margin="247,0,0,557" HorizontalAlignment="Left" Width="919" VerticalAlignment="Bottom" />
+        <Grid x:Name="episodeBar" Margin="247,248,34,492" Background="#0CFFFFFF" />
+        <Label x:Name="label_link" Content="Adding link: https://powv1deo.cc/u601hklvr92x" Foreground="#FFA5A5A5" FontSize="12pt" Margin="247,0,0,456" HorizontalAlignment="Left" Width="919" VerticalAlignment="Bottom" />
+        <Button Style="{DynamicResource GScraper.Series.Button}" x:Name="button_scrape" Content="Scrape" Margin="1027,718,34,34" Click="button_scrape_Click" />
+        <Button Style="{DynamicResource GScraper.Series.Button}" x:Name="button_cancel" Content="Cancel" Margin="879,718,182,34" Click="button_cancel_Click" IsEnabled="False" />
     </Grid>
 </Page>

@@ -24,6 +24,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
             DataContext = this;
         }
 
+        public string SeriesUrl { get; set; }
         public string ImgUrl { get; set; }
         public string InternalName { get; set; }
         public string SeriesName { get; set; }
@@ -35,13 +36,6 @@ namespace Kaisa.GScraper.Scraper.Pages {
 
         private void button_import_Click(object sender, RoutedEventArgs e) {
             OpenDownloadPage();
-            return;
-            foreach (var season in GetChosenEpisodes()) {
-                foreach (var episode in season) {
-                    System.Diagnostics.Debug.Write(episode);
-                }
-                System.Diagnostics.Debug.Write("\n");
-            }
         }
 
         private List<EpisodeSelector> seasons;
@@ -77,7 +71,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         private void OpenDownloadPage () {
             var window = (MainWindow)Window.GetWindow(this);
             window.page_download = new SeriesImportProgress();
-            window.page_download.Initialize(10);
+            window.page_download.Initialize(SeriesUrl, GetChosenEpisodes());
             window.DisplayFrame.Navigate(window.page_download);
         }
     }

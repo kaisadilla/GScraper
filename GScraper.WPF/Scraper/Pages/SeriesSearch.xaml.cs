@@ -1,4 +1,5 @@
 ﻿#define NO_CONNECTION
+#undef NO_CONNECTION
 
 using Kaisa.GScraper.Exceptions;
 using Kaisa.GScraper.Packets;
@@ -77,6 +78,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
                 var seriesStructure = BindingObjects.Scraper.ScrapeSeriesStructure(url);
                 var window = (MainWindow)Window.GetWindow(this);
                 window.page_options = new SeriesImportOptions {
+                    SeriesUrl = url,
                     ImgUrl = seriesStructure.imgUrl,
                     SeriesName = seriesStructure.name,
                     InternalName = seriesStructure.internalName

@@ -11,15 +11,16 @@ namespace Kaisa.GScraper.SQLite {
 
         public static void CreateDatabase() {
             SQLiteConnection.CreateFile("series.sqlite");
+            Initialize();
             CreateTables();
         }
 
         private static void CreateTables() {
             dbConn.Open();
-            var comm_movies = new SQLiteCommand(TableDefinitions.SQL_MOVIES);
-            var comm_series = new SQLiteCommand(TableDefinitions.SQL_SERIES);
-            var comm_episodes = new SQLiteCommand(TableDefinitions.SQL_EPISODES);
-            var comm_links = new SQLiteCommand(TableDefinitions.SQL_LINKS);
+            var comm_movies = new SQLiteCommand(TableDefinitions.SQL_MOVIES, dbConn);
+            var comm_series = new SQLiteCommand(TableDefinitions.SQL_SERIES, dbConn);
+            var comm_episodes = new SQLiteCommand(TableDefinitions.SQL_EPISODES, dbConn);
+            var comm_links = new SQLiteCommand(TableDefinitions.SQL_LINKS, dbConn);
 
             comm_movies.ExecuteNonQuery();
             comm_series.ExecuteNonQuery();
@@ -40,7 +41,7 @@ namespace Kaisa.GScraper.SQLite {
         }
 
         public static void InsertLink(string url, string episode, int linkType, string hostName, string quality, string language) {
-            string sql = $"insert into links values ('{url}', '{episode}', '{linkType}', '{hostName}', '{quality}', '{language}', '0');";
+            string sql = $"insert into links values ('{url}', '{episode}', '{linkType}', '{hostName}', '{quality}', '{language}', '0', '0');";
             QueryInsert(sql);
         }
 

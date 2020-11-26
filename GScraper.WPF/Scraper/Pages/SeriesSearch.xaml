@@ -11,7 +11,7 @@
     <Grid Background="#FF1E1E1E">
         <Label Content="Search Gnula for a series or input a link directly:" HorizontalAlignment="Left" Margin="208,50,0,0" VerticalAlignment="Top" Foreground="#FFE1E1E1"/>
         <TextBox x:Name="textBox_searchQuery" HorizontalAlignment="Left" Margin="208,76,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="617" Height="48" Background="#FFE1E1E1" FontSize="22pt" Padding="5,2,0,0" BorderThickness="0,0,0,0" SelectionBrush="#FFDC7823" SelectionTextBrush="Black" KeyDown="textBox_searchQuery_KeyDown"/>
-        <Button Style="{DynamicResource GScraper.Series.Button}" x:Name="button_search" Content="Search" BorderThickness="0" HorizontalAlignment="Left" Margin="830,76,0,0" VerticalAlignment="Top" Height="48" Width="139" FontSize="18pt" Background="#FFDC7823" Click="button_search_Click">
+        <Button Style="{DynamicResource GScraper.Series.Button}" x:Name="button_search" Content="Search" HorizontalAlignment="Left" Margin="830,76,0,0" VerticalAlignment="Top" Click="button_search_Click">
 
         </Button>
         <uc:LoadingSpinner x:Name="loading_searchingQuery" HorizontalAlignment="Left" VerticalAlignment="Top" Width="761" Height="542" Margin="123,140,0,0" Visibility="Hidden" />
