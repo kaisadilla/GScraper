@@ -14,8 +14,8 @@
         <Button Style="{DynamicResource GScraper.Series.Button}" x:Name="button_search" Content="Search" HorizontalAlignment="Left" Margin="830,76,0,0" VerticalAlignment="Top" Click="button_search_Click">
 
         </Button>
-        <uc:LoadingSpinner x:Name="loading_searchingQuery" HorizontalAlignment="Left" VerticalAlignment="Top" Width="761" Height="542" Margin="123,140,0,0" Visibility="Hidden" />
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="123,140,140,70" Height="542">
+        <uc:LoadingSpinner x:Name="loading_searchingQuery" HorizontalAlignment="Left" VerticalAlignment="Top" Width="761" Height="542" Margin="140,164,140,94" Visibility="Hidden" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="140,164,140,94" Height="542">
             <ItemsControl x:Name="list_searchResults">
                 <!--<uc:WebSearchResult ImgUrl="https://image.tmdb.org/t/p/w92/rst5xc4f7v1KiDiQjzDiZqLtBpl.jpg" SeriesName="Stargate" Year="1997" Width="600" Height="95" />-->
             </ItemsControl>

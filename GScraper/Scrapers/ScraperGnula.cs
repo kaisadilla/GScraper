@@ -111,10 +111,12 @@ namespace Kaisa.GScraper.Scrapers {
                 for (int eIndex = 0; eIndex < html_episodes.Count(); eIndex++) {
                     if (chosenEpisodes[sIndex][eIndex] == false) continue;
                     yield return (sIndex, eIndex);
+                    string episodePageLink = null;
+                    string episodeFullId = null;
                     await Task.Run(() => {
                         var episode = html_episodes.ElementAt(eIndex);
                         int episodeNumber = eIndex + 1;
-                        string episodeFullId = $"{internalName}_{seasonNumber}_{episodeNumber}";
+                        episodeFullId = Database.BuildEpisodeId(internalName, seasonNumber, episodeNumber);
 
                         string episodeImgUrl = episode.CssSelect(".imagen img").First()?.Attributes["src"]?.Value;
                         string episodeImgPath = $@"{seriesImgFolder}\{episodeFullId}.{episodeImgUrl.Split('.')[^1]}";
@@ -122,7 +124,7 @@ namespace Kaisa.GScraper.Scrapers {
                         DownloadImage(episodeImgUrl, AppDomain.CurrentDomain.BaseDirectory + episodeImgPath);
 
                         string episodeName = episode.CssSelect(".episodiotitle a").First()?.InnerHtml;
-                        string episodePageLink = episode.CssSelect(".episodiotitle a").First()?.Attributes["href"]?.Value;
+                        episodePageLink = episode.CssSelect(".episodiotitle a").First()?.Attributes["href"]?.Value;
                         string episodeDate = episode.CssSelect(".date").First()?.InnerHtml;
 
 
@@ -130,6 +132,10 @@ namespace Kaisa.GScraper.Scrapers {
                         Database.InsertEpisode(episodeFullId, internalName, seasonNumber, episodeNumber, episodeName, episodeDate, episodeImgPath);
                         ScrapeEpisodePage(episodePageLink, episodeFullId);
                     });
+
+                    /*await foreach (string link in ScrapeEpisodePage(episodePageLink, episodeFullId)) {
+                        yield return (sIndex, eIndex, link);
+                    }*/
                 }
             }
         }
@@ -150,26 +156,53 @@ namespace Kaisa.GScraper.Scrapers {
                 }
             }
         }
-
         private void ScrapeEpisodePage(string episodeUrl, string episodeFullId) {
             var conds = ExpectedConditions.ElementExists(By.Id("videos"));
             HtmlNode page = loader.LoadDynamicWebpage(episodeUrl, conds);
             if (page == null) throw new PageNotFoundException();
 
+            string url = null;
             var watchOnlineTable = page.CssSelect("#videos table > tbody > tr");
             foreach (var row in watchOnlineTable) {
-                ParseLinkFromRow(row, out string url, out string hostName, out string quality, out string language);
+                ParseLinkFromRow(row, out url, out string hostName, out string quality, out string language);
                 Console.WriteLine($"Type: {LinkType.watchOnline} - {hostName} / {quality} / {language}: {url}");
                 Database.InsertLink(url, episodeFullId, (int)LinkType.watchOnline, hostName, quality, language);
             }
 
             var downloadTable = page.CssSelect("#download table > tbody > tr");
             foreach (var row in downloadTable) {
-                ParseLinkFromRow(row, out string url, out string hostName, out string quality, out string language);
+                ParseLinkFromRow(row, out url, out string hostName, out string quality, out string language);
                 Console.WriteLine($"Type: {LinkType.download} - {hostName} / {quality} / {language}: {url}");
                 Database.InsertLink(url, episodeFullId, (int)LinkType.download, hostName, quality, language);
             }
         }
+
+        /*private async IAsyncEnumerable<string> ScrapeEpisodePage (string episodeUrl, string episodeFullId) {
+            var conds = ExpectedConditions.ElementExists(By.Id("videos"));
+            HtmlNode page = loader.LoadDynamicWebpage(episodeUrl, conds);
+            if (page == null) throw new PageNotFoundException();
+
+            string url = null;
+            var watchOnlineTable = page.CssSelect("#videos table > tbody > tr");
+            foreach (var row in watchOnlineTable) {
+                await Task.Run(() => {
+                    ParseLinkFromRow(row, out url, out string hostName, out string quality, out string language);
+                    Console.WriteLine($"Type: {LinkType.watchOnline} - {hostName} / {quality} / {language}: {url}");
+                    Database.InsertLink(url, episodeFullId, (int)LinkType.watchOnline, hostName, quality, language);
+                });
+                yield return url;
+            }
+
+            var downloadTable = page.CssSelect("#download table > tbody > tr");
+            foreach (var row in downloadTable) {
+                await Task.Run(() => {
+                    ParseLinkFromRow(row, out url, out string hostName, out string quality, out string language);
+                    Console.WriteLine($"Type: {LinkType.download} - {hostName} / {quality} / {language}: {url}");
+                    Database.InsertLink(url, episodeFullId, (int)LinkType.download, hostName, quality, language);
+                });
+                yield return url;
+            }
+        }*/
 
         private void ParseLinkFromRow(HtmlNode row, out string url, out string hostName, out string quality, out string language) {
             var columns = row.CssSelect("td");

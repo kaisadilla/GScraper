@@ -27,15 +27,25 @@ namespace Kaisa.GScraper.Scraper.Pages {
 
         public SeriesImportProgress() {
             InitializeComponent();
+            DataContext = this;
         }
+        public string ImgUrl { get; set; }
+        public string SeriesName { get; set; }
 
         private string url;
         private bool[][] chosenEpisodes;
+        private bool cancelationToken = false;
 
         public void Initialize (string url, bool[][] chosenEpisodes) {
             this.url = url;
             this.chosenEpisodes = chosenEpisodes;
             CreateSeasonBar(chosenEpisodes.Length);
+            CreateEpisodeBar(chosenEpisodes[0].Length);
+        }
+
+        private void arrow_goBack_Click(object sender, RoutedEventArgs e) {
+            var window = (MainWindow)Window.GetWindow(this);
+            window.DisplayFrame.Navigate(window.page_options);
         }
 
         private void button_scrape_Click (object sender, RoutedEventArgs e) {
@@ -43,15 +53,22 @@ namespace Kaisa.GScraper.Scraper.Pages {
         }
 
         private void button_cancel_Click (object sender, RoutedEventArgs e) {
-            // cancel
+            button_cancel.IsEnabled = false;
+            cancelationToken = true;
         }
 
         private async void DownloadSeries () {
-            button_scrape.IsEnabled = false;
-            button_cancel.IsEnabled = true;
-            int currentSeason = -1;
+            SetScrapeInProgress(true);
 
+            int currentSeason = -1;
             await foreach ((int season, int episode) e in BindingObjects.Scraper.ScrapeSeries(url, chosenEpisodes)) {
+                if (cancelationToken) {
+                    cancelationToken = false;
+                    break;
+                }
+                label_season.Content = $"Scraping season {e.season + 1} / {chosenEpisodes.Length}";
+                label_episode.Content = $"Scraping episoded {e.episode + 1} / {chosenEpisodes[e.season].Length}";
+                //label_link.Content = $"Adding link: {e.link}";
                 if (e.season != currentSeason) {
                     currentSeason = e.season;
                     CreateEpisodeBar(chosenEpisodes[currentSeason].Length);
@@ -59,8 +76,14 @@ namespace Kaisa.GScraper.Scraper.Pages {
                 SetSeasonCount(e.season);
                 SetEpisodeCount(e.episode);
             }
-            button_cancel.IsEnabled = true;
-            button_scrape.IsEnabled = true;
+
+            SetScrapeInProgress(false);
+        }
+
+        private void SetScrapeInProgress (bool inProgress) {
+            arrow_goBack.IsEnabled = !inProgress;
+            button_scrape.IsEnabled = !inProgress;
+            button_cancel.IsEnabled = inProgress;
         }
 
         private void CreateSeasonBar (int amount) {

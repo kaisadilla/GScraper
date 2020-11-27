@@ -20,7 +20,9 @@ namespace Kaisa.GScraper.Scraper.UserControls {
     public partial class EpisodeSelector : UserControl {
         private const int ROW_HEIGHT = 35;
         private const int EPISODES_PER_ROW = 5;
-        private static Color TOGGLE_COLOR_ACTIVE = (Color)ColorConverter.ConvertFromString("#FFDC7823");
+
+        public int EpisodeCount => episodeToggles.Count;
+        //public ToggleButton this[int key] => episodeToggles[key];
 
         public EpisodeSelector() {
             InitializeComponent();
@@ -61,16 +63,25 @@ namespace Kaisa.GScraper.Scraper.UserControls {
                     Height = ROW_HEIGHT - 1,
                     BorderThickness = new Thickness(0),
                     Margin = new Thickness(1, 1, 0, 0),
-                    //Background = new SolidColorBrush(TOGGLE_COLOR_ACTIVE),
                     FontSize = 14d * (96d / 72d),
                     Content = $"{i + 1}",
                     IsChecked = true
                 };
                 eToggle.Style = FindResource("GScraper.Series.ToggleButton") as Style;
-                //eToggle.Click += (sender, e) => toggle_season.IsChecked = false; // why can't I untoggle the master toggle? Curious.
+                eToggle.Click += (sender, e) => toggle_season.IsChecked = AreAllEpisodesToggled;
                 list_episodes.Children.Add(eToggle);
                 episodeToggles.Add(eToggle);
             }
+        }
+
+        /// <summary>
+        /// Toggles the given episode on or off, raising the Click event of said episode.
+        /// </summary>
+        /// <param name="index">The index of the episode, starting at 0.</param>
+        /// <param name="toggled">Whether the episode is toggled on.</param>
+        public void ToggleEpisode(int index, bool toggled) {
+            episodeToggles[index].IsChecked = toggled;
+            episodeToggles[index].RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         /// <summary>

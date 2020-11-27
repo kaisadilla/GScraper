@@ -1,5 +1,6 @@
 ﻿using Kaisa.GScraper.Scraper.Packets;
 using Kaisa.GScraper.Scraper.UserControls;
+using Kaisa.GScraper.SQLite;
 using Kaisa.GScraper.WPF;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,10 @@ namespace Kaisa.GScraper.Scraper.Pages {
             OpenDownloadPage();
         }
 
+        private void button_unmarkDownloaded_Click(object sender, RoutedEventArgs e) {
+            ToggleOffAlreadyScrapedEpisodes();
+        }
+
         private List<EpisodeSelector> seasons;
 
         /// <summary>
@@ -58,6 +63,15 @@ namespace Kaisa.GScraper.Scraper.Pages {
             }
         }
 
+        private void ToggleOffAlreadyScrapedEpisodes() {
+            for (int s = 0; s < seasons.Count; s++) {
+                for (int e = 0; e < seasons[s].EpisodeCount; e++) {
+                    var dbEpisode = Database.RetrieveEpisodeById(Database.BuildEpisodeId(InternalName, s + 1, e + 1));
+                    if (dbEpisode != null) seasons[s].ToggleEpisode(e, false);
+                }
+            }
+        }
+
         private bool[][] GetChosenEpisodes () {
             bool[][] chosenEpisodes = new bool[seasons.Count][];
 
@@ -70,7 +84,10 @@ namespace Kaisa.GScraper.Scraper.Pages {
 
         private void OpenDownloadPage () {
             var window = (MainWindow)Window.GetWindow(this);
-            window.page_download = new SeriesImportProgress();
+            window.page_download = new SeriesImportProgress {
+                SeriesName = SeriesName,
+                ImgUrl = ImgUrl,
+            };
             window.page_download.Initialize(SeriesUrl, GetChosenEpisodes());
             window.DisplayFrame.Navigate(window.page_download);
         }

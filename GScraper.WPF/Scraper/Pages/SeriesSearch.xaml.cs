@@ -8,6 +8,7 @@ using Kaisa.GScraper.WPF;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -55,10 +56,13 @@ namespace Kaisa.GScraper.Scraper.Pages {
             }
         }
 
-        private void SearchAndDisplay(string query) {
-            list_searchResults.Items.Clear();
+        private async void SearchAndDisplay(string query) {
+            button_search.IsEnabled = false;
             loading_searchingQuery.Visibility = Visibility.Visible;
-            var results = BindingObjects.Scraper.ScrapeSearchResult(query);
+
+            list_searchResults.Items.Clear();
+            GnulaSeriesResult[] results = null;
+            await Task.Run(() => results = BindingObjects.Scraper.ScrapeSearchResult(query));
 
             foreach (var r in results) {
                 var resultEntry = new WebSearchResult {
@@ -71,6 +75,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
                 list_searchResults.Items.Add(resultEntry);
             }
             loading_searchingQuery.Visibility = Visibility.Hidden;
+            button_search.IsEnabled = true;
         }
 
         private void NavigateToPage (string url) {
