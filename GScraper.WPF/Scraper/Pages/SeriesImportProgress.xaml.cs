@@ -67,7 +67,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
                     break;
                 }
                 label_season.Content = $"Scraping season {e.season + 1} / {chosenEpisodes.Length}";
-                label_episode.Content = $"Scraping episoded {e.episode + 1} / {chosenEpisodes[e.season].Length}";
+                label_episode.Content = $"Scraping episode {e.episode + 1} / {chosenEpisodes[e.season].Length}";
                 //label_link.Content = $"Adding link: {e.link}";
                 if (e.season != currentSeason) {
                     currentSeason = e.season;
