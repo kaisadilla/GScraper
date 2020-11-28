@@ -3,7 +3,7 @@
 
 using Kaisa.GScraper.Exceptions;
 using Kaisa.GScraper.Packets;
-using Kaisa.GScraper.Scraper.UserControls;
+using Kaisa.GScraper.WPF.Scraper.UserControls;
 using Kaisa.GScraper.WPF;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.Scraper.Pages {
+namespace Kaisa.GScraper.WPF.Scraper.Pages {
     /// <summary>
     /// Interaction logic for SeriesSearch.xaml
     /// </summary>
@@ -81,7 +81,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         private void NavigateToPage (string url) {
             try {
                 var seriesStructure = BindingObjects.Scraper.ScrapeSeriesStructure(url);
-                var window = (MainWindow)Window.GetWindow(this);
+                var window = (ScraperWindow)Window.GetWindow(this);
                 window.page_options = new SeriesImportOptions {
                     SeriesUrl = url,
                     ImgUrl = seriesStructure.imgUrl,
@@ -97,7 +97,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         }
 
         private void NavigateSimulated () {
-            var window = (MainWindow)Window.GetWindow(this);
+            var window = (ScraperWindow)Window.GetWindow(this);
             window.page_options = new SeriesImportOptions {
                 ImgUrl = @"C:\Users\DAW2\poster.jpg",
                 SeriesName = "Test (2007)",

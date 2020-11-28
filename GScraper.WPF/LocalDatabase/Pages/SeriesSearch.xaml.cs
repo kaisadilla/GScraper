@@ -11,12 +11,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.WPF.Scraper.UserControls {
+namespace Kaisa.GScraper.WPF.LocalDatabase.Pages {
     /// <summary>
-    /// Interaction logic for LoadingSpinner.xaml
+    /// Interaction logic for SeriesSearch.xaml
     /// </summary>
-    public partial class LoadingSpinner : UserControl {
-        public LoadingSpinner() {
+    public partial class SeriesSearch : Page {
+        public SeriesSearch() {
             InitializeComponent();
         }
     }

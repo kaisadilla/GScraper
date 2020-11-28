@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <RootNamespace>Kaisa.GScraper</RootNamespace>
+    <RootNamespace>Kaisa.GScraper.WPF</RootNamespace>
     <PackageId>GScraper.WPF</PackageId>
     <Authors>Kaisa</Authors>
     <Product>Kaisa.GScraper.WPF</Product>

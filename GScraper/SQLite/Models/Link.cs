@@ -10,10 +10,10 @@ namespace Kaisa.GScraper.SQLite.Models {
         public readonly string hostName;
         public readonly string quality;
         public readonly string language;
-        public readonly float favorite;
-        public readonly int badLink;
+        public readonly bool favorite;
+        public readonly bool badLink;
 
-        public Link (string url, string episode, LinkType linkType, string hostName, string quality, string language, int favorite, int badLink) {
+        public Link (string url, string episode, LinkType linkType, string hostName, string quality, string language, bool favorite, bool badLink) {
             this.url = url;
             this.episode = episode;
             this.linkType = linkType;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kaisa.GScraper.Scraper.Packets {
+namespace Kaisa.GScraper.WPF.Scraper.Packets {
     public struct SeriesEpisode {
         public readonly string episodeName;
         public readonly string episodeUrl;

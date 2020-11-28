@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Kaisa.GScraper.Scraper.UserControls.WebSearchResult"
+﻿<UserControl x:Class="Kaisa.GScraper.WPF.Scraper.UserControls.WebSearchResult"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              Height="95" Width="800">
     
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <Style x:Key="HighlightOnHover" TargetType="{x:Type Grid}">
             <Setter Property="Background" Value="#FF1E1E1E" />
             <Setter Property="Cursor" Value="Hand" />
@@ -16,10 +16,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
     
     <Border BorderBrush="#FF5A5A5A" BorderThickness="0, 0, 0, 1">
-        <Grid Style="{StaticResource HighlightOnHover}">
+        <Grid Style="{DynamicResource GScraper.Series.HoverableGrid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="90px" />
                 <ColumnDefinition Width="1*" />

@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="Kaisa.GScraper.Scraper.UserControls.EpisodeSelector"
+﻿<UserControl x:Class="Kaisa.GScraper.WPF.Scraper.UserControls.EpisodeSelector"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Kaisa.GScraper.Scraper.UserControls"
+             xmlns:local="clr-namespace:Kaisa.GScraper.WPF.Scraper.UserControls"
              mc:Ignorable="d" 
              Height="175" Width="175">
     <UserControl.Resources>

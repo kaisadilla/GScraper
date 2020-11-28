@@ -1,5 +1,5 @@
-﻿using Kaisa.GScraper.Scraper.Pages;
-using Kaisa.GScraper.Scraper.UserControls;
+﻿using Kaisa.GScraper.WPF.Scraper.Pages;
+using Kaisa.GScraper.WPF.Scraper.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +19,8 @@ namespace Kaisa.GScraper.WPF {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class ScraperWindow : Window {
+        public ScraperWindow() {
             BindingObjects.Initialize();
             BindingObjects.InitializeScraper();
             InitializeComponent();

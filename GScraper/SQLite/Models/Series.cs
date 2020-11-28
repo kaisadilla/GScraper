@@ -9,5 +9,13 @@ namespace Kaisa.GScraper.SQLite.Models {
         public readonly string imgPath;
         public readonly bool favorite;
         public readonly float rating;
+
+        public Series(string internalName, string displayName, string imgPath, bool favorite, float rating) {
+            this.internalName = internalName;
+            this.displayName = displayName;
+            this.imgPath = imgPath;
+            this.favorite = favorite;
+            this.rating = rating;
+        }
     }
 }

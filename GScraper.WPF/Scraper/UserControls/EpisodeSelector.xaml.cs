@@ -1,4 +1,4 @@
-﻿using Kaisa.GScraper.Scraper.Packets;
+﻿using Kaisa.GScraper.WPF.Scraper.Packets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.Scraper.UserControls {
+namespace Kaisa.GScraper.WPF.Scraper.UserControls {
     /// <summary>
     /// Interaction logic for EpisodeSelector.xaml
     /// </summary>

@@ -6,6 +6,7 @@
                         displayName text,
                         date text,
                         imgPath text,
+                        date text,
                         favorite int,
                         rating real
                     );";

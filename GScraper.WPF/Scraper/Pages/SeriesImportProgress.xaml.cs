@@ -1,5 +1,4 @@
-﻿using Kaisa.GScraper.WPF;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -15,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.Scraper.Pages {
+namespace Kaisa.GScraper.WPF.Scraper.Pages {
     /// <summary>
     /// Interaction logic for SeriesImportProgress.xaml
     /// </summary>
@@ -44,7 +43,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         }
 
         private void arrow_goBack_Click(object sender, RoutedEventArgs e) {
-            var window = (MainWindow)Window.GetWindow(this);
+            var window = (ScraperWindow)Window.GetWindow(this);
             window.DisplayFrame.Navigate(window.page_options);
         }
 

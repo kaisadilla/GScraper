@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.Scraper.UserControls {
+namespace Kaisa.GScraper.WPF.Scraper.UserControls {
     /// <summary>
     /// Interaction logic for WebSearchResult.xaml
     /// </summary>

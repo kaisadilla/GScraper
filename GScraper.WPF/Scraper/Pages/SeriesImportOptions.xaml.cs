@@ -1,5 +1,5 @@
-﻿using Kaisa.GScraper.Scraper.Packets;
-using Kaisa.GScraper.Scraper.UserControls;
+﻿using Kaisa.GScraper.WPF.Scraper.Packets;
+using Kaisa.GScraper.WPF.Scraper.UserControls;
 using Kaisa.GScraper.SQLite;
 using Kaisa.GScraper.WPF;
 using System;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Kaisa.GScraper.Scraper.Pages {
+namespace Kaisa.GScraper.WPF.Scraper.Pages {
     /// <summary>
     /// Interaction logic for SeriesImportOptions.xaml
     /// </summary>
@@ -31,7 +31,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         public string SeriesName { get; set; }
 
         private void arrow_goBack_Click(object sender, RoutedEventArgs e) {
-            var window = (MainWindow)Window.GetWindow(this);
+            var window = (ScraperWindow)Window.GetWindow(this);
             window.DisplayFrame.Navigate(window.page_search);
         }
 
@@ -66,8 +66,14 @@ namespace Kaisa.GScraper.Scraper.Pages {
         private void ToggleOffAlreadyScrapedEpisodes() {
             for (int s = 0; s < seasons.Count; s++) {
                 for (int e = 0; e < seasons[s].EpisodeCount; e++) {
-                    var dbEpisode = Database.RetrieveEpisodeById(Database.BuildEpisodeId(InternalName, s + 1, e + 1));
-                    if (dbEpisode != null) seasons[s].ToggleEpisode(e, false);
+                    string episodeId = Database.BuildEpisodeId(InternalName, s + 1, e + 1);
+                    var dbEpisode = Database.RetrieveEpisodeById(episodeId);
+                    if (dbEpisode != null) {
+                        // don't toggle off episodes that are registered but that have no links.
+                        if (Database.RetrieveLinksByEpisode(episodeId).Length > 0) {
+                            seasons[s].ToggleEpisode(e, false);
+                        }
+                    }
                 }
             }
         }
@@ -83,7 +89,7 @@ namespace Kaisa.GScraper.Scraper.Pages {
         }
 
         private void OpenDownloadPage () {
-            var window = (MainWindow)Window.GetWindow(this);
+            var window = (ScraperWindow)Window.GetWindow(this);
             window.page_download = new SeriesImportProgress {
                 SeriesName = SeriesName,
                 ImgUrl = ImgUrl,
